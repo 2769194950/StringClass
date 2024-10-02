@@ -17,7 +17,7 @@ public:
 	//深赋值运算
 	String& operator=(const String& s);
 
-	int GetLen();//获取串长度
+	int GetLen() const;//获取串长度
 	//*************************************************************************************************林容昌
 	void Strncpy(const String& source, const int& n);//复制前n个数，不足复制原串
 
