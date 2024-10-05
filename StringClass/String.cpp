@@ -15,6 +15,7 @@ String::String(const char* s)
 	while (s[i] != '\0')
 	{
 		str[i] = s[i];
+		i++;
 	}
 }
 
@@ -25,6 +26,7 @@ String::String(const char* s, const int& len)
 	for (int i = 0; i < length; i++)
 	{
 		str[i] = s[i];
+
 	}
 }
 
