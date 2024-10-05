@@ -102,7 +102,7 @@ void String::Delete(const int& pos, const String& goal)
 		{
 			flag = 1;
 			throw 'e';
-			break;
+			return;
 		}
 		j++;
 	}
