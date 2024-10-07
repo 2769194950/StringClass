@@ -122,11 +122,11 @@ char &String::operator[](int n) const {
 
 void String::Insert(const int &pos, const char &goal) {
     // 抛出异常
-    if (pos < 0 || pos >= length) {
+    if (pos < 0 || pos > length) {
         throw out_of_range("插入位置不在范围内");
     }
 
-    char* newStr = new char[length + 2];
+    char* newStr = new char[length + 1];
     for (int i = 0; i < pos; ++i) {
         newStr[i] = str[i];
     }
@@ -134,7 +134,6 @@ void String::Insert(const int &pos, const char &goal) {
     for (int i = pos; i < length; ++i) {
         newStr[i + 1] = str[i];
     }
-    newStr[length + 1] = '\0';
 
     delete[] str;
     str = newStr;
@@ -143,7 +142,7 @@ void String::Insert(const int &pos, const char &goal) {
 
 void String::Insert(const int &pos, const String &goal) {
     // 抛出异常
-    if (pos < 0 || pos >= length) {
+    if (pos < 0 || pos > length) {
         throw out_of_range("插入位置不在范围内");
     }
 
@@ -151,7 +150,7 @@ void String::Insert(const int &pos, const String &goal) {
     int newLength = length + goalLength;
 
     // 构建新的str
-    char* newStr = new char[newLength + 1];
+    char* newStr = new char[newLength];
     for (int i = 0; i < pos; ++i) {
         newStr[i] = str[i];
     }
@@ -161,7 +160,6 @@ void String::Insert(const int &pos, const String &goal) {
     for (int i = pos + goalLength, j = pos; i < newLength; ++i, ++j) {
         newStr[i] = str[j];
     }
-    newStr[newLength] = '\0';
 
     delete[] str;
     str = newStr;

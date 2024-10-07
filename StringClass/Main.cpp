@@ -6,14 +6,14 @@ void testInsert1(String &str, int pos, const char goal) {
     try {
         str.Insert(pos,goal);
     } catch (const out_of_range& e) {
-        cerr << "Exception: " << e.what() << std::endl;
+        cerr << "Exception: " << e.what() << endl;
     }
 }
 void testInsert2(String &str ,int pos, const String& goal) {
     try {
         str.Insert(pos,goal);
     } catch (const out_of_range& e) {
-        cerr << "Exception: " << e.what() << std::endl;
+        cerr << "Exception: " << e.what() << endl;
     }
 }
 void testFind1(String string, const char &goal, const int &pos = 0) {
