@@ -33,10 +33,10 @@ public:
 	void Insert(const int& pos, const char& goal);//将目标字符插入到下标pos后，注意原串为空和pos为length的异常处理
 	void Insert(const int& pos, const String& goal);
 
-
-	int& Find(const char& goal, const int& pos = 0);//从pos开始查找，返回第一次出现goal的下标
-	int& FindFinally(const char& goal, const int& pos = 0);//从pos开始查找，返回最后一次出现goal的下标
-	int& Find(const String& goal, const int& pos = 0);//查找第一次出现goal，返回对应goal首字符的小标
+    // pos越界也均返回-1
+	int Find(const char& goal, const int& pos = 0);//从pos开始查找，返回第一次出现goal的下标 未找到则返回-1
+	int FindFinally(const char& goal, const int& pos = 0);//从pos开始查找，返回最后一次出现goal的下标
+	int Find(const String& goal, const int& pos = 0);//查找第一次出现goal，返回对应goal首字符的小标
 
 	void Replace(const int& pos, const char& goal);//替换下标字符
 	void Replace(const int& pos, const String& goal);//替换下标后的goal.length个字符，注意异常处理
@@ -68,7 +68,7 @@ public:
 	friend String& operator+ (const char &c,const String &s);//char+String
 	
 	//下标运算符
-	char& operator[] (int n);//注意对超出访问进行异常处理
+	char& operator[] (int n) const;//注意对超出访问进行异常处理
 
 	//析构函数
 	~String();

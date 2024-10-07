@@ -1,16 +1,155 @@
-ï»¿#include <iostream>
-#include <cstring>
+#include <iostream>
+#include "String.h"
 using namespace std;
 
+void testInsert1(String &str, int pos, const char goal) {
+    try {
+        str.Insert(pos,goal);
+    } catch (const out_of_range& e) {
+        cerr << "Exception: " << e.what() << std::endl;
+    }
+}
+void testInsert2(String &str ,int pos, const String& goal) {
+    try {
+        str.Insert(pos,goal);
+    } catch (const out_of_range& e) {
+        cerr << "Exception: " << e.what() << std::endl;
+    }
+}
+void testFind1(String string, const char &goal, const int &pos = 0) {
+    int result = string.Find(goal, pos);
+    cout << "´ÓÎ»ÖÃ " << pos << " ¿ªÊ¼²éÕÒ×Ö·û '" << goal << "'£¬";
+    if (result != -1) {
+        cout << "Ê×´Î³öÏÖµÄÎ»ÖÃÊÇ£º" << result << endl;
+    } else {
+        cout << "Î´ÕÒµ½×Ö·û '" << goal << "'" << endl;
+    }
+}
+void testFindFinally(String string, const char &goal, const int &pos = 0) {
+    int result = string.FindFinally(goal, pos);
+    cout << "´ÓÎ»ÖÃ " << pos << " ¿ªÊ¼²éÕÒ×Ö·û '" << goal << "'£¬";
+    if (result != -1) {
+        cout << "×îºóÒ»´Î³öÏÖµÄÎ»ÖÃÊÇ£º" << result << endl;
+    } else {
+        cout << "Î´ÕÒµ½×Ö·û '" << goal << "'" << endl;
+    }
+}
+void testFind2(String string, const String &goal, const int &pos = 0) {
+    int result = string.Find(goal, pos);
+    cout << "´ÓÎ»ÖÃ " << pos << " ¿ªÊ¼²éÕÒ×Ö·û´® \"" << goal << "\"£¬";
+    if (result != -1) {
+        cout << "Ê×´Î³öÏÖµÄÎ»ÖÃÊÇ£º" << result << endl;
+    } else {
+        cout << "Î´ÕÒµ½×Ö·û´® \"" << goal << "\"" << endl;
+    }
+}
+
+void testYYF() {
+    cout << "=============================================================="<< endl;
+    String string1("abc");
+    cout << "1 ²âÊÔÁ½ÖÖ²åÈë¹¦ÄÜ£º" << endl;
+    cout << "1.1 void Insert(const int& pos, const char& goal);" << endl;
+    cout << "½«A²åÈëµ½Î»ÖÃ1´¦" << endl;
+    cout << "Ô­×Ö·û´®\tabc" << endl;
+    cout << "ÏÖ×Ö·û´®\t";
+    testInsert1(string1, 1, 'A');
+    cout << string1;
+    cout << endl << endl;
+
+    String string2("abc");
+    cout << "1.2 void Insert(const int& pos, const String& goal);" << endl;
+    cout << "½«12²åÈëµ½Î»ÖÃ1´¦" << endl;
+    cout << "Ô­×Ö·û´®\tabc" << endl;
+    cout << "ÏÖ×Ö·û´®\t";
+    testInsert2(string2, 1, "12");
+    cout << string2;
+    cout << endl << endl;
+
+    cout << "Òì³£´¦ÀíÕ¹Ê¾:" << endl;
+    String string3("abc");
+    cout << "½«A²åÈëµ½abcµÄÎ»ÖÃ4´¦£¨²úÉúÔ½½ç£©" << endl;
+    testInsert1(string3, 4, 'A');
+    cout << "Ô­×Ö·û´®\tabc" << endl;
+    cout << "ÏÖ×Ö·û´®\t" << string3 << endl;
+
+    cout << "=============================================================="<< endl;
+
+    String string4("abcabc");
+    cout << "2. ²âÊÔ²éÕÒ×Ö·û£º" << endl;
+    cout << "2.1 int Find(const char& goal, const int& pos = 0);" << endl;
+    cout << "ÔÚ abcabc ÖÐ²éÕÒ×Ö·û 'b'" << endl;
+    testFind1(string1, 'b', 0);
+    cout << endl;
+
+    cout << "2.2 int FindFinally(const char& goal, const int& pos = 0);" << endl;
+    cout << "ÔÚ abcabc ÖÐ²éÕÒ×Ö·û 'b'£¬´Ó×îºó¿ªÊ¼²éÕÒ" << endl;
+    testFindFinally(string4, 'b', 0);
+    cout << endl;
+
+    String substring("ab");
+    cout << "2.3 int Find(const String& goal, const int& pos = 0);" << endl;
+    cout << "ÔÚ abcabc ÖÐ²éÕÒ×Ö·û´® \"ab\"" << endl;
+    testFind2(string4, substring, 0);
+
+    cout << "=============================================================="<< endl;
+
+    String string5("abc");
+    cout << "3 ²âÊÔÁ½ÖÖÌæ»»¹¦ÄÜ£º" << endl;
+    cout << "3.1 void Replace(const int& pos, const char& goal);" << endl;
+    cout << "½«AÓëÎ»ÖÃ1´¦×Ö·ûÌæ»»" << endl;
+    cout << "Ô­×Ö·û´®\tabc" << endl;
+    cout << "ÏÖ×Ö·û´®\t";
+    string5.Replace(1, 'A');
+    cout << string5;
+    cout << endl << endl;
+
+    String string6("abc");
+    cout << "3.2 void Replace(const int& pos, const String& goal);" << endl;
+    cout << "½«12´ÓÎ»ÖÃ1´¦¿ªÊ¼Ìæ»»" << endl;
+    cout << "Ô­×Ö·û´®\tabc" << endl;
+    cout << "ÏÖ×Ö·û´®\t";
+    string6.Replace(1, "12");
+    cout << string2;
+    cout << endl << endl;
+
+    cout << "Òì³£´¦ÀíÕ¹Ê¾:" << endl;
+    String string7("abc");
+    cout << "½«12´ÓÎ»ÖÃ2´¦¿ªÊ¼Ìæ»»£¨²úÉúÔ½½ç£©" << endl;
+    try {
+        string6.Replace(2, "12");
+    } catch (const out_of_range& e) {
+        cerr << "Exception: " << e.what() << std::endl;
+    }
+    cout << "Ô­×Ö·û´®\tabc" << endl;
+    cout << "ÏÖ×Ö·û´®\t" << string3 << endl;
+
+    cout << "=============================================================="<< endl;
+    String string8("abc");
+    cout << "4 ²âÊÔ´óÐ¡Ð´¹¦ÄÜ£º" << endl;
+    cout << "4.1 String& Strupr();" << endl;
+    cout << "½«×Ö·û´®×ª»¯³É´óÐ´" << endl;
+    cout << "Ô­×Ö·û´®\tabc" << endl;
+    cout << "ÏÖ×Ö·û´®\t";
+    string8.Strupr();
+    cout << string8;
+    cout << endl << endl;
+
+    cout << "4.2 String& Strlwr();" << endl;
+    cout << "½«×Ö·û´®×ª»¯³ÉÐ¡Ð´" << endl;
+    cout << "Ô­×Ö·û´®\tABC" << endl;
+    cout << "ÏÖ×Ö·û´®\t";
+    string8.Strlwr();
+    cout << string8 << endl;
+    cout << "=============================================================="<< endl;
+
+}
 int main()
 {
-    cout << 1;
-	cout << 2;
-	cout << 4;
-	while (true)
+    testYYF();
+    system("pause");
+	/*while (true)
 	{
-		cout << "----Stringæ“ä½œé¢æ¿----" << endl;
+		cout << "----String²Ù×÷Ãæ°å----" << endl;
 		cout << "" << endl;
-	}
-
+	}*/
 }
