@@ -7,9 +7,6 @@ void testInsert1(String& str, int pos, const char goal) {
         str.Insert(pos, goal);
     }
     catch (const out_of_range& e) {
-        cerr << "Exception: " << e.what() << std::endl;
-        str.Insert(pos,goal);
-    } catch (const out_of_range& e) {
         cerr << "Exception: " << e.what() << endl;
     }
 }
@@ -85,7 +82,7 @@ void testYYF() {
     cout << "2. ²âÊÔ²éÕÒ×Ö·û£º" << endl;
     cout << "2.1 int Find(const char& goal, const int& pos = 0);" << endl;
     cout << "ÔÚ abcabc ÖÐ²éÕÒ×Ö·û 'b'" << endl;
-    testFind1(string1, 'b', 0);
+    testFind1(string4, 'b', 0);
     cout << endl;
 
     cout << "2.2 int FindFinally(const char& goal, const int& pos = 0);" << endl;
@@ -152,10 +149,96 @@ void testYYF() {
 
 }
 
+void testDelete1(String& str, const int& pos)//²âÊÔÉ¾³ýÏÂ±ê¶ÔÓ¦µÄ×Ö·û
+{
+    try
+    {
+        str.Delete(pos);
+    }
+    catch (int)
+    {
+        cout << "Î´²éÑ¯µ½´ýÉ¾×Ö·ûÎ»ÖÃ" << endl;
+    }
+}
+void testDelete2(String& str, const int& pos, const char& goal)
+{
+    try
+    {
+        str.Delete(pos, goal);
+    }
+    catch (int)
+    {
+        cout << "Î´²éÑ¯µ½´ýÉ¾×Ö·ûÎ»ÖÃ" << endl;
+    }
+    catch (char)
+    {
+        cout << "´ýÉ¾×Ö·ûÓëÊµ¼Ê×Ö·û²»·û" << endl;
+    }
+}
+void testDelete3(String& str, const int& pos, const String& goal)
+{
+    try
+    {
+        str.Delete(pos, goal);
+    }
+    catch (int)
+    {
+        cout << "Î´²éÑ¯µ½´ýÉ¾×Ö·ûÎ»ÖÃ" << endl;
+    }
+    catch (char)
+    {
+        cout << "´ýÉ¾×Ö·ûÓëÊµ¼Ê×Ö·û²»·û" << endl;
+    }
+}
+
+void testWYT()
+{
+    cout << "==============================================================" << endl;
+    cout << "²âÊÔÈýÖÖÉ¾³ý¹¦ÄÜ" << endl;
+    cout << endl;
+
+    String str1("abcde");
+    cout << "1.1void Delete(const int& pos)" << endl;
+    cout << "É¾³ýÏÂ±ê2¶ÔÓ¦×Ö·û" << endl;
+    cout << "Ô­×Ö·û´®:\t" << str1 << endl;
+    testDelete1(str1, 2);
+    cout << "ÏÖ×Ö·û´®:\t" << str1 << endl;
+    cout << endl;
+
+    String str2("abcdefj");
+    cout << "1.2void Delete(const int& pos, const char& goal)" << endl;
+    cout << "É¾³ýÏÂ±ê1ºó'c¡¯×Ö·û" << endl;
+    cout << "Ô­×Ö·û´®:\t" << str2 << endl;
+    testDelete2(str2, 1, 'c');
+    cout << "ÏÖ×Ö·û´®:\t" << str2 << endl;
+    cout << endl;
+
+    String str3("abcdefj");
+    cout << "1.3void Delete(const int& pos, const String& goal)" << endl;
+    cout << "É¾³ýÏÂ±ê1ºó¡®cd'×Ö·û´®" << endl;
+    String goal("cd");
+    cout << "Ô­×Ö·û´®:\t" << str3 << endl;
+    testDelete3(str3, 1, goal);
+    cout << "ÏÖ×Ö·û´®:\t" << str3 << endl;
+    cout << endl;
+
+    String str4("abcde");
+    cout << "Òì³£´¦ÀíÕ¹Ê¾" << endl;
+    cout << "É¾³ýÏÂ±ê1ºó'd'×Ö·û" << endl;
+    cout << "Ô­×Ö·û´®:\t" << str4 << endl;
+    testDelete2(str4, 1, 'd');
+    cout << "ÏÖ×Ö·û´®:\t" << str4 << endl;
+
+
+}
+
 int main()
 {
-    testYYF();
-    system("pause");
+    //testYYF();
+    testWYT();
+    
+    
+    //system("pause");
 	/*while (true)
 	{
 		cout << "----String²Ù×÷Ãæ°å----" << endl;

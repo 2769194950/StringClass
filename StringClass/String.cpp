@@ -61,15 +61,22 @@ void String::Delete(const int& pos)
 	if (length == 0)//查询不到待删字符
 	{
 		throw - 1;
-		return;
+		
 	}
 	int i = 0;
-	String temp(*this);//拷贝构造
+    char* newStr = new char[length - 1];//新建资源空间
+    for ( i ; i < pos; i++)
+    {
+        newStr[i] = str[i];
+    }
 	for ( i = pos; i < length - 1; i++)//空开待删除字符
 	{
-		str[i] = temp[i+1];//[]运算符重载
+        newStr[i] = str[i + 1];
 	}
 	length = length - 1;
+    delete[]str;//删除原本资源空间
+    str = newStr;//链接新的资源空间
+
 }
 
 void String::Delete(const int& pos, const char& goal)
@@ -77,12 +84,12 @@ void String::Delete(const int& pos, const char& goal)
 	if (length == 0 || pos == length ||length == 1)//查询不到待删字符
 	{
 		throw -1;
-		return;
+		
 	}
 	if (str[pos+1] != goal)//待删字符与目标字符不同
 	{
 		throw 'e';
-		return;
+        
 	}
 	Delete(pos + 1);
 	
@@ -93,7 +100,7 @@ void String::Delete(const int& pos, const String& goal)
 	if ((length-1-pos) < goal.GetLen())//查询不到足够的待删字符
 	{
 		throw -1;
-		return;
+		
 	}
 	int flag = 0, i, j = 0;
 	for ( i = pos+1; i < pos+1+goal.GetLen(); i++)//待删除部分与目标串不同
@@ -102,7 +109,7 @@ void String::Delete(const int& pos, const String& goal)
 		{
 			flag = 1;
 			throw 'e';
-			return;
+			
 		}
 		j++;
 	}
@@ -110,7 +117,7 @@ void String::Delete(const int& pos, const String& goal)
 	{
 		for ( i = pos+1; i < pos + 1 + goal.GetLen(); i++)
 		{
-			Delete(i);
+			Delete(pos + 1);
 		}
 	}
 
@@ -193,7 +200,7 @@ int String::Find(const String &goal, const int &pos) {
     int endPostfix;
     // 前缀末尾
     int endPrefix = 0;
-    for (endPostfix = 1; endPrefix < goal.length; ++endPostfix) {
+    for (endPostfix = 1; endPostfix < goal.length; ++endPostfix) {
         // 不匹配
         while (str[endPostfix] != str[endPrefix] && endPrefix > 0) {
             // 回退
