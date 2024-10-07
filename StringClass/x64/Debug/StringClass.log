@@ -1,3 +1,4 @@
-﻿  String.cpp
-C:\VSproject\面向对象编程\实验五\StringClass\StringClass\String.cpp(44,1): warning C4172: 返回局部变量或临时变量的地址: x
-  StringClass.vcxproj -> C:\VSproject\面向对象编程\实验五\StringClass\x64\Debug\StringClass.exe
+﻿  Main.cpp
+  String.cpp
+  正在生成代码...
+C:\VSproject\面向对象编程\实验五\StringClass\StringClass\String.cpp(101,17): error C2678: 二进制“[”: 没有找到接受“const String”类型的左操作数的运算符(或没有可接受的转换)
