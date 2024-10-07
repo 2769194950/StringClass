@@ -1,4 +1,4 @@
-ï»¿#include "String.h"
+#include "String.h"
 
 
 
@@ -58,28 +58,28 @@ String::~String()
 
 void String::Delete(const int& pos)
 {
-	if (length == 0)//æŸ¥è¯¢ä¸åˆ°å¾…åˆ å­—ç¬¦
+	if (length == 0)//²éÑ¯²»µ½´ıÉ¾×Ö·û
 	{
 		throw - 1;
 		return;
 	}
 	int i = 0;
-	String temp(*this);//æ‹·è´æ„é€ 
-	for ( i = pos; i < length - 1; i++)//ç©ºå¼€å¾…åˆ é™¤å­—ç¬¦
+	String temp(*this);//¿½±´¹¹Ôì
+	for ( i = pos; i < length - 1; i++)//¿Õ¿ª´ıÉ¾³ı×Ö·û
 	{
-		str[i] = temp[i+1];//[]è¿ç®—ç¬¦é‡è½½
+		str[i] = temp[i+1];//[]ÔËËã·ûÖØÔØ
 	}
 	length = length - 1;
 }
 
 void String::Delete(const int& pos, const char& goal)
 {
-	if (length == 0 || pos == length ||length == 1)//æŸ¥è¯¢ä¸åˆ°å¾…åˆ å­—ç¬¦
+	if (length == 0 || pos == length ||length == 1)//²éÑ¯²»µ½´ıÉ¾×Ö·û
 	{
-		throw - 1;
+		throw -1;
 		return;
 	}
-	if (str[pos+1] != goal)//å¾…åˆ å­—ç¬¦ä¸ç›®æ ‡å­—ç¬¦ä¸åŒ
+	if (str[pos+1] != goal)//´ıÉ¾×Ö·ûÓëÄ¿±ê×Ö·û²»Í¬
 	{
 		throw 'e';
 		return;
@@ -90,13 +90,13 @@ void String::Delete(const int& pos, const char& goal)
 
 void String::Delete(const int& pos, const String& goal)
 {
-	if ((length-1-pos) < goal.GetLen())//æŸ¥è¯¢ä¸åˆ°è¶³å¤Ÿçš„å¾…åˆ å­—ç¬¦
+	if ((length-1-pos) < goal.GetLen())//²éÑ¯²»µ½×ã¹»µÄ´ıÉ¾×Ö·û
 	{
-		throw - 1;
+		throw -1;
 		return;
 	}
 	int flag = 0, i, j = 0;
-	for ( i = pos+1; i < pos+1+goal.GetLen(); i++)//å¾…åˆ é™¤éƒ¨åˆ†ä¸ç›®æ ‡ä¸²ä¸åŒ
+	for ( i = pos+1; i < pos+1+goal.GetLen(); i++)//´ıÉ¾³ı²¿·ÖÓëÄ¿±ê´®²»Í¬
 	{
 		if (str[i] != goal[j])
 		{
@@ -114,4 +114,158 @@ void String::Delete(const int& pos, const String& goal)
 		}
 	}
 
+}
+
+char &String::operator[](int n) const {
+    return str[n];
+}
+
+void String::Insert(const int &pos, const char &goal) {
+    // Å×³öÒì³£
+    if (pos < 0 || pos >= length) {
+        throw out_of_range("²åÈëÎ»ÖÃ²»ÔÚ·¶Î§ÄÚ");
+    }
+
+    char* newStr = new char[length + 2];
+    for (int i = 0; i < pos; ++i) {
+        newStr[i] = str[i];
+    }
+    newStr[pos] = goal;
+    for (int i = pos; i < length; ++i) {
+        newStr[i + 1] = str[i];
+    }
+    newStr[length + 1] = '\0';
+
+    delete[] str;
+    str = newStr;
+    length++;
+}
+
+void String::Insert(const int &pos, const String &goal) {
+    // Å×³öÒì³£
+    if (pos < 0 || pos >= length) {
+        throw out_of_range("²åÈëÎ»ÖÃ²»ÔÚ·¶Î§ÄÚ");
+    }
+
+    int goalLength = goal.length;
+    int newLength = length + goalLength;
+
+    // ¹¹½¨ĞÂµÄstr
+    char* newStr = new char[newLength + 1];
+    for (int i = 0; i < pos; ++i) {
+        newStr[i] = str[i];
+    }
+    for (int i = pos, j = 0; i < pos + goalLength; ++i, ++j) {
+        newStr[i] = goal[j];
+    }
+    for (int i = pos + goalLength, j = pos; i < newLength; ++i, ++j) {
+        newStr[i] = str[j];
+    }
+    newStr[newLength] = '\0';
+
+    delete[] str;
+    str = newStr;
+    length = newLength;
+}
+
+int String::Find(const char &goal, const int &pos) {
+    for (int i = pos; i < length; ++i) {
+        if (str[i] == goal) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+int String::FindFinally(const char &goal, const int &pos) {
+    for (int i = length; i > pos - 1; --i) {
+        if (str[i] == goal) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+int String::Find(const String &goal, const int &pos) {
+    // KMPËã·¨
+    // µÚÒ»²½£º¹¹Ôì³öÇ°×º±í
+    int *next = new int[goal.length];
+    next[0] = 0;
+    // ºó×ºÄ©Î²
+    int endPostfix;
+    // Ç°×ºÄ©Î²
+    int endPrefix = 0;
+    for (endPostfix = 1; endPrefix < goal.length; ++endPostfix) {
+        // ²»Æ¥Åä
+        while (str[endPostfix] != str[endPrefix] && endPrefix > 0) {
+            // »ØÍË
+            endPrefix = next[endPrefix - 1];
+        }
+        // Æ¥Åä Ç°×ººó×ºÍ¬Ê±ºóÒÆ
+        if (str[endPrefix] == str[endPostfix]) {
+            endPrefix++;
+        }
+        next[endPostfix] = endPrefix; // ½«j£¨Ç°×ºµÄ³¤¶È£©¸³¸ønext[i]
+    }
+
+    // µÚ¶ş²¿£º¸ù¾İÇ°×º±íÆ¥Åä×Ö·û´®
+    int j = 0;
+    for (int i = pos; i < length; ++i) {
+        // Èç¹ûµ±Ç°Ã»ÓĞÆ¥Åä
+        while (str[i] != goal[j] && j > 0) {
+            j = next[j - 1];
+        }
+        // Æ¥ÅäµÄ»°£¬¼ÌĞø±È½ÏÏÂÒ»¸ö×Ö·û
+        if (str[i] == goal[j]) {
+            ++j;
+        }
+        // jÄÜ×ßµ½goalµÄÄ©Î²ÔòÖ¤Ã÷Æ¥ÅäÍê³É
+        if (j == goal.length) {
+            delete []next;
+            return (i - j + 1);
+        }
+    }
+    delete []next;
+    return -1;
+}
+
+void String::Replace(const int &pos, const char &goal) {
+    if (pos < 0 || pos >= length) {
+        throw out_of_range("Ìæ»»Î»ÖÃ²»ÔÚ·¶Î§ÄÚ");
+    }
+    str[pos] = goal;
+}
+
+void String::Replace(const int &pos, const String &goal) {
+    if (pos < 0 || pos > length - goal.length) {
+        throw out_of_range("Ìæ»»Î»ÖÃ²»ÔÚ·¶Î§ÄÚ");
+    }
+    for (int i = pos ,j = 0; i < goal.length + pos; ++i ,++j) {
+        str[i] = goal[j];
+    }
+}
+
+String &String::Strupr() {
+    for (int i = 0; i < length; ++i) {
+        if (str[i] >= 'a' && str[i] <= 'z') {
+            str[i] -= 32;
+        }
+    }
+    return *this;
+}
+
+String &String::Strlwr() {
+    for (int i = 0; i < length; ++i) {
+        if (str[i] >= 'A' && str[i] <= 'Z') {
+            str[i] += 32;
+        }
+    }
+    return *this;
+}
+
+ostream &operator<<(ostream &out, const String &s) {
+    for (int i = 0; i < s.length; ++i) {
+        out << s[i];
+    }
+    return out;
 }
