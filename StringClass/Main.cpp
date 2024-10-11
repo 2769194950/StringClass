@@ -2,6 +2,18 @@
 #include "String.h"
 using namespace std;
 
+String testString(const char* c = nullptr)
+{
+    try
+    {
+        return String(c);
+    }
+    catch (std::bad_alloc& e)
+    {
+        std::cerr << "内存申请失败:" << e.what() << std::endl;
+    }
+}
+
 void testInsert1(String& str, int pos, const char goal) {
     try {
         str.Insert(pos, goal);
@@ -50,7 +62,7 @@ void testFind2(String string, const String& goal, const int& pos = 0) {
 
 void testYYF() {
     cout << "==============================================================" << endl;
-    String string1("abc");
+    String string1 = testString("abc");
     cout << "1 测试两种插入功能：" << endl;
     cout << "1.1 void Insert(const int& pos, const char& goal);" << endl;
     cout << "将A插入到位置1处" << endl;
@@ -60,7 +72,7 @@ void testYYF() {
     cout << string1;
     cout << endl << endl;
 
-    String string2("abc");
+    String string2 = testString("abc");
     cout << "1.2 void Insert(const int& pos, const String& goal);" << endl;
     cout << "将12插入到位置1处" << endl;
     cout << "原字符串\tabc" << endl;
@@ -70,7 +82,7 @@ void testYYF() {
     cout << endl << endl;
 
     cout << "异常处理展示:" << endl;
-    String string3("abc");
+    String string3 = testString("abc");
     cout << "将A插入到abc的位置4处（产生越界）" << endl;
     testInsert1(string3, 4, 'A');
     cout << "原字符串\tabc" << endl;
@@ -78,7 +90,7 @@ void testYYF() {
 
     cout << "==============================================================" << endl;
 
-    String string4("abcabc");
+    String string4 = testString("abcabc");
     cout << "2. 测试查找字符：" << endl;
     cout << "2.1 int Find(const char& goal, const int& pos = 0);" << endl;
     cout << "在 abcabc 中查找字符 'b'" << endl;
@@ -90,14 +102,14 @@ void testYYF() {
     testFindFinally(string4, 'b', 0);
     cout << endl;
 
-    String substring("ab");
+    String substring = testString("ab");
     cout << "2.3 int Find(const String& goal, const int& pos = 0);" << endl;
     cout << "在 abcabc 中查找字符串 \"ab\"" << endl;
     testFind2(string4, substring, 0);
 
     cout << "==============================================================" << endl;
 
-    String string5("abc");
+    String string5 = testString("abc");
     cout << "3 测试两种替换功能：" << endl;
     cout << "3.1 void Replace(const int& pos, const char& goal);" << endl;
     cout << "将A与位置1处字符替换" << endl;
@@ -107,7 +119,7 @@ void testYYF() {
     cout << string5;
     cout << endl << endl;
 
-    String string6("abc");
+    String string6 = testString("abc");
     cout << "3.2 void Replace(const int& pos, const String& goal);" << endl;
     cout << "将12从位置1处开始替换" << endl;
     cout << "原字符串\tabc" << endl;
@@ -117,7 +129,7 @@ void testYYF() {
     cout << endl << endl;
 
     cout << "异常处理展示:" << endl;
-    String string7("abc");
+    String string7 = testString("abc");
     cout << "将12从位置2处开始替换（产生越界）" << endl;
     try {
         string6.Replace(2, "12");
@@ -129,7 +141,7 @@ void testYYF() {
     cout << "现字符串\t" << string3 << endl;
 
     cout << "==============================================================" << endl;
-    String string8("abc");
+    String string8 = testString("abc");
     cout << "4 测试大小写功能：" << endl;
     cout << "4.1 String& Strupr();" << endl;
     cout << "将字符串转化成大写" << endl;
@@ -197,7 +209,7 @@ void testWYT()
     cout << "测试三种删除功能" << endl;
     cout << endl;
 
-    String str1("abcde");
+    String str1 = testString("abcde");
     cout << "1.1void Delete(const int& pos)" << endl;
     cout << "删除下标2对应字符" << endl;
     cout << "原字符串:\t" << str1 << endl;
@@ -205,7 +217,7 @@ void testWYT()
     cout << "现字符串:\t" << str1 << endl;
     cout << endl;
 
-    String str2("abcdefj");
+    String str2 = testString("abcdefj");
     cout << "1.2void Delete(const int& pos, const char& goal)" << endl;
     cout << "删除下标1后'c’字符" << endl;
     cout << "原字符串:\t" << str2 << endl;
@@ -213,7 +225,7 @@ void testWYT()
     cout << "现字符串:\t" << str2 << endl;
     cout << endl;
 
-    String str3("abcdefj");
+    String str3 = testString("abcdefj");
     cout << "1.3void Delete(const int& pos, const String& goal)" << endl;
     cout << "删除下标1后‘cd'字符串" << endl;
     String goal("cd");
@@ -222,7 +234,7 @@ void testWYT()
     cout << "现字符串:\t" << str3 << endl;
     cout << endl;
 
-    String str4("abcde");
+    String str4 = testString("abcde");
     cout << "异常处理展示" << endl;
     cout << "删除下标1后'd'字符" << endl;
     cout << "原字符串:\t" << str4 << endl;
