@@ -1,3 +1,5 @@
 ﻿  Main.cpp
+  String.cpp
+  正在生成代码...
 C:\VSproject\面向对象编程\实验五\StringClass\StringClass\Main.cpp(15,1): warning C4715: “testString”: 不是所有的控件路径都返回值
   StringClass.vcxproj -> C:\VSproject\面向对象编程\实验五\StringClass\x64\Debug\StringClass.exe
