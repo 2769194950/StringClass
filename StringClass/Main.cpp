@@ -247,8 +247,15 @@ void testWYT()
 int main()
 {
     //testYYF();
-    testWYT();
+    //testWYT();
+    char a[] = { '1','2','3' };
+    String str1(a,3);
     
+    String str2("123");
+    cout << str1 << str2 << endl;
+    str1 = str2;
+    cout << str1 << str2 << endl;
+
     
     //system("pause");
 	/*while (true)

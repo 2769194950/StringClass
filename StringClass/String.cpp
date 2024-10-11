@@ -4,6 +4,12 @@
 
 String::String(const char* s)
 {
+    if (s == NULL)
+    {
+        length = 0;
+        str = NULL;
+        return;
+    }
 	int i = 0;
 	while (s[i] != '\0')
 	{
@@ -42,8 +48,18 @@ String::String(const String& s)
 
 String& String::operator=(const String& s)
 {
-	String x(s);
-	return x;
+    /*if (*this == s)
+    {
+        return *this;
+    }*/
+    delete[] str;
+    length = s.length;
+    str = new char[length];
+    for (int i = 0; i < length; i++)
+    {
+        str[i] = s.str[i];
+    }
+    return *this;
 }
 
 int String::GetLen() const
@@ -274,3 +290,5 @@ ostream &operator<<(ostream &out, const String &s) {
     }
     return out;
 }
+
+

@@ -7,7 +7,7 @@ class String
 public:
 	//构造函数
 	//c字符串构造函数
-	String(const char* s = nullptr);
+	String(const char* s = NULL);
 
 	String(const char* s, const int& len);
 	
@@ -22,14 +22,14 @@ public:
 	//*************************************************************************************************林容昌
 	void Strncpy(const String& source, const int& n);//复制前n个数，不足复制原串
 
-	String& StrCat(const String& s);//本串与输入串拼接
+	String& StrCat(const String& s) const;//本串与输入串拼接
 	String& StrnCat(const String& s, const int& n);//输入串前n个数拼接到前串
 
 	String& SubStr(const int& pos, const int& n);//返回从下标pos后n个数的串，注意访问超出的异常处理
 
-	int Compare(const String& s);//大于返回1，小于返回-1，等于返回0
+	int Compare(const String& s) const;//大于返回1，小于返回-1，等于返回0
 
-	int To_int();//将0-9字符转化为数字，注意判断是不是只含0-9
+	int To_int() const;//将0-9字符转化为数字，注意判断是不是只含0-9
 	//*************************************************************************************************杨一帆
 	void Insert(const int& pos, const char& goal);//将目标字符插入到下标pos后，注意原串为空和pos为length的异常处理
 	void Insert(const int& pos, const String& goal);
@@ -57,12 +57,12 @@ public:
 	friend istream& operator>> (istream& in, const String& s);
 
 	//重载运算符
-	bool operator> (const String& s);
-	bool operator< (const String& s);
-	bool operator== (const String& s);
-	bool operator!= (const String& s);
-	bool operator>= (const String& s);
-	bool operator<= (const String& s);
+	bool operator> (const String& s) const;
+	bool operator< (const String& s) const;
+	bool operator== (const String& s) const;
+	bool operator!= (const String& s) const;
+	bool operator>= (const String& s) const;
+	bool operator<= (const String& s) const;
 
 	String& operator+ (const String& s);//String+String
 	String& operator+ (const char& s);//String+char
@@ -70,7 +70,6 @@ public:
 	
 	//下标运算符
 	char& operator[] (int n) const;//注意对超出访问进行异常处理
-
 	//析构函数
 	~String();
 
