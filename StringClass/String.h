@@ -20,18 +20,18 @@ public:
 	int GetLen() const;//获取串长度
 
 	//*************************************************************************************************林容昌
-	void Strncpy(const String& source, const int& n);//复制前n个数，不足复制原串
+	void Strncpy(const String& copy, const int& n);//复制前n个数，不足复制原串
 
-	String& StrCat(const String& s) const;//本串与输入串拼接
-	String& StrnCat(const String& s, const int& n);//输入串前n个数拼接到前串
+	void StrCat(const String& s) ; //本串与输入串拼接
+	void StrnCat(const String& s, const int& n);//输入串前n个数拼接到前串
 
-	String& SubStr(const int& pos, const int& n);//返回从下标pos后n个数的串，注意访问超出的异常处理
+	String SubStr(const int& pos, const int& n);//返回从下标pos后n个数的串，若剩余不足n个，则全部返回，注意访问超出的异常处理
 
 	int Compare(const String& s) const;//大于返回1，小于返回-1，等于返回0
 
 	int To_int() const;//将0-9字符转化为数字，注意判断是不是只含0-9
 	//*************************************************************************************************杨一帆
-	void Insert(const int& pos, const char& goal);//将目标字符插入到下标pos后，注意原串为空和pos为length的异常处理
+	void Insert(const int& pos, const char& goal);//将目标字符插入到下标pos，注意原串为空和pos为length的异常处理
 	void Insert(const int& pos, const String& goal);
 
     // pos越界也均返回-1
@@ -54,7 +54,7 @@ public:
 	//*************************************************************************************************杨弘毅
 	//抽取和插入运算符重载
 	friend ostream& operator<< (ostream& out, const String& s);
-	friend istream& operator>> (istream& in, const String& s);
+	friend istream& operator>> (istream& in, String& s);
 
 	//重载运算符
 	bool operator> (const String& s) const;
@@ -64,9 +64,9 @@ public:
 	bool operator>= (const String& s) const;
 	bool operator<= (const String& s) const;
 
-	String& operator+ (const String& s);//String+String
-	String& operator+ (const char& s);//String+char
-	friend String& operator+ (const char &c,const String &s);//char+String
+	String operator+ (const String& s);//String+String
+	String operator+ (const char& s);//String+char
+	friend String operator+ (const char &c,const String &s);//char+String
 	
 	//下标运算符
 	char& operator[] (int n) const;//注意对超出访问进行异常处理

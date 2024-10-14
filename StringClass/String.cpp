@@ -1,7 +1,7 @@
 #include "String.h"
 
 
-
+//构造函数
 String::String(const char* s)
 {
     if (s == NULL)
@@ -36,6 +36,7 @@ String::String(const char* s, const int& len)
 	}
 }
 
+//拷贝构造
 String::String(const String& s)
 {
 	length = s.length;
@@ -46,6 +47,7 @@ String::String(const String& s)
 	}
 }
 
+//赋值运算
 String& String::operator=(const String& s)
 {
     /*if (*this == s)
@@ -67,11 +69,109 @@ int String::GetLen() const
 	return length;
 }
 
+//析构函数
 String::~String()
 {
 	delete[] str;
 }
 
+void String::Strncpy(const String& copy, const int& n)
+{
+    length = n;
+    if (n < 0)
+    {
+        throw invalid_argument("n必须是正整数");
+    }
+    if (n > copy.GetLen())
+    {
+        length = copy.GetLen();
+    }
+    delete[] str;
+    str = new char[length];
+    for (int i = 0; i < n; i++)
+    {
+        str[i] = copy.str[i];
+    }
+}
+void String::StrCat(const String& s) 
+{
+    String temp;
+    temp = *this;
+    length = length + s.length;
+    delete str;
+    str = new char[length];
+    int i = 0;
+    for ( i ; i < temp.length; i++)
+    {
+        str[i] = temp[i];
+    }
+    int j = 0;
+    for ( i ; i < length; i++)
+    {
+        str[i] = s[j];
+        j++;
+    }
+    
+}
+
+void String::StrnCat(const String& s, const int& n)
+{
+    if (s.length < n)
+    {
+        throw out_of_range("目标字符串长度不足");
+    }
+    String temp;
+    temp.length = n;
+    temp.str = new char[n];
+    int i = 0;
+    for ( i ; i < n; i++)
+    {
+        temp[i] = s[i];
+    }
+    this->StrCat(temp);
+    
+}
+
+String String::SubStr(const int& pos, const int& n)
+{
+    String result;
+    result.length = n;
+    if (pos < 0 || pos > this->length)
+    {
+        throw out_of_range("pos超出范围");
+    }
+    if (pos + n > this->length)
+    {
+        result.length = this->length - pos - 1;
+    }
+    result.str = new char[result.length];
+    int j = 0;
+    for (int i = pos; i <= pos + result.length - 1; ++i)
+    {
+        result[j] = str[i];
+        j++;
+    }
+    return result;
+}//有问题
+
+int String::To_int() const
+{
+    int result = 0;
+    for (int i = 0; i < this->length; ++i)
+    {
+        if (str[i] < '0' || str[i] > '9')
+        {
+            throw invalid_argument("该字符串存在非数字字符！");
+        }
+        for (int i = 0; i < this->length; ++i)
+        {
+            result = result * 10 + (str[i] - '0');
+        }
+        return result;
+    }
+}
+
+//删除字符(串)
 void String::Delete(const int& pos)
 {
 	if (length == 0)//查询不到待删字符
@@ -139,10 +239,7 @@ void String::Delete(const int& pos, const String& goal)
 
 }
 
-char &String::operator[](int n) const {
-    return str[n];
-}
-
+//插入字符(串)
 void String::Insert(const int &pos, const char &goal) {
     // 抛出异常
     if (pos < 0 || pos > length) {
@@ -189,6 +286,7 @@ void String::Insert(const int &pos, const String &goal) {
     length = newLength;
 }
 
+//查找字符(串)
 int String::Find(const char &goal, const int &pos) {
     for (int i = pos; i < length; ++i) {
         if (str[i] == goal) {
@@ -250,6 +348,7 @@ int String::Find(const String &goal, const int &pos) {
     return -1;
 }
 
+//替换字符(串)
 void String::Replace(const int &pos, const char &goal) {
     if (pos < 0 || pos >= length) {
         throw out_of_range("替换位置不在范围内");
@@ -266,6 +365,7 @@ void String::Replace(const int &pos, const String &goal) {
     }
 }
 
+//英文大小写转化
 String &String::Strupr() {
     for (int i = 0; i < length; ++i) {
         if (str[i] >= 'a' && str[i] <= 'z') {
@@ -284,11 +384,125 @@ String &String::Strlwr() {
     return *this;
 }
 
-ostream &operator<<(ostream &out, const String &s) {
-    for (int i = 0; i < s.length; ++i) {
-        out << s[i];
+//大于是1，小于是-1
+int String::Compare(const String& s) const
+{
+    int minLength = (length > s.length ? s.length : length);
+    for (int i = 0; i < minLength; i++)
+    {
+        if (str[i] < s.str[i])
+            return -1;
+        else if (str[i] > s.str[i])
+            return 1;
+    }
+    if (length > s.length)
+    {
+        return 1;
+    }
+    if (length == s.length)
+    {
+        return 0;
+    }
+    return -1;
+}
+
+//运算符重载
+ostream& operator<<(ostream& out, const String& s) {
+    for (int i = 0; i < s.length; ++i)
+    {
+        out << s.str[i];
     }
     return out;
 }
 
+istream& operator>>(istream& in, String& s)
+{
+    delete s.str;
+    s.str = new char[256];
+    in >> s.str;
+    int i = 0;
+    while (s.str[i] != NULL)
+    {
+        i++;
+    }
+    s.length = i;
+    return in;
+}
+
+// 重载运算符比较
+bool String::operator>(const String& s) const {
+    return (Compare(s) == 1) ? 1 : 0;
+}
+
+bool String::operator<(const String& s) const {
+    return (Compare(s) == -1) ? 1 : 0;
+}
+
+bool String::operator==(const String& s) const {
+    return !Compare(s) ? 1 : 0;
+}
+
+bool String::operator!=(const String& s) const {
+    return !(*this == s);
+}
+
+bool String::operator>=(const String& s) const {
+    return !(*this < s);
+}
+
+bool String::operator<=(const String& s) const {
+    return !(*this > s);
+}
+
+// 重载运算符加法
+String String::operator+(const String& s) {
+    int i;
+    String newStr;
+    newStr.str = new char[length + s.length];
+    newStr.length = length + s.length;
+    for (i = 0; i < length; i++)
+    {
+        newStr.str[i] = str[i];
+    }
+    for (i = 0; i < s.length; i++)
+    {
+        newStr.str[length + i] = s.str[i];
+    }
+    return newStr;
+}
+
+String String::operator+(const char& c) {
+    int i;
+    String newStr;
+    newStr.str = new char[length + 1];
+    newStr.length = length + 1;
+    for (i = 0; i < length; i++)
+    {
+        newStr.str[i] = str[i];
+    }
+    newStr[length] = c;
+    return newStr;
+}
+
+// 友元运算符加法
+String operator+(const char& c, const String& s)
+{
+    int i;
+    String newStr;
+    newStr.str = new char[s.length + 1];
+    newStr.length = s.length + 1;
+    newStr[0] = c;
+    for (i = 1; i < s.length + 1; i++)
+    {
+        newStr.str[i] = s.str[i];
+    }
+    return newStr;
+
+}
+
+// 重载下标运算符
+char& String::operator[](int n) const
+{
+    return str[n];
+}
 
