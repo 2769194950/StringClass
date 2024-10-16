@@ -472,7 +472,7 @@ void FindMenu(String& s)
 void ReplaceMenu(String& s)
 {
     cout << "1---替换下标对应的字符" << endl;
-    cout << "2---替换下标后的字符串" << endl;
+    cout << "2---替换下标后(包含下标)的字符串" << endl;
     cout << endl;
     String reSec;
     int pos;
